@@ -9,6 +9,19 @@ const {
   hashPassword,
 } = require("../services/emailService");
 
+/**
+ * Sends ticket confirmation email to users after booking a flight
+ * @param {Object} req - Express request object containing flight details
+ * @param {string} req.header.authorization - JWT token for authentication
+ * @param {Object} req.body - Flight booking information
+ * @param {number} req.body.flightId - Unique identifier for the flight
+ * @param {string} req.body.date - Date of travel
+ * @param {number} req.body.price - Ticket price
+ * @param {string} req.body.seatNumber - Seat number assigned
+ * @param {string} req.body.seatClass - Class of service (economy/business/first)
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>}
+ */
 exports.sendTicketConfirmation = (req, res) => {
   const token = req.header("authorization");
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
@@ -45,7 +58,15 @@ exports.sendTicketConfirmation = (req, res) => {
   });
 };
 
-
+/**
+ * Handles password reset functionality for users
+ * @param {Object} req - Express request object containing user credentials
+ * @param {Object} req.body - User identification details
+ * @param {string} req.body.email - User's registered email address
+ * @param {string} req.body.username - User's username
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>}
+ */
 exports.resetPassword = (req, res) => {
   const { email,username } = req.body;
 
